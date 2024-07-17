@@ -2,9 +2,9 @@ const express = require('express')
 
 // permitir comunicarnos con el frontend
 const router = express.Router()
-const {createBloodBank} = require('../controllers/bloodBank.controller')
+const {createEps} = require('../controllers/eps.controller')
 
 //validaciones incluidas en el controler
-router.post('/newbloodbank', createBloodBank)
+router.post('/neweps', createEps)
 
 module.exports = router

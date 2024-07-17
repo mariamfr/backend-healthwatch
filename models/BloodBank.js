@@ -3,9 +3,11 @@ const { Schema, model } = require('mongoose')
 
 // Definición del esquema para el CRS
 const crsSchema = Schema({
-  type: { type: String, required: true },
+  // type: { type: String, required: true },
+  type: { type: String },
   properties: {
-    name: { type: String, required: true }
+    // name: { type: String, required: true }
+    name: { type: String }
   }
 }, { _id: false });
 
@@ -36,8 +38,8 @@ const featureSchema = Schema({
 const bloodBankSchema = Schema({
   type: { type: String, required: true },
   name: { type: String, required: true },
-  crs: crsSchema,
+  crs: crsSchema ,
   features: [featureSchema]
 });
 
-module.exports = model('BloodBanks', bloodBankSchema);
+module.exports = model('BloodBanks', bloodBankSchema, 'BloodBanks');

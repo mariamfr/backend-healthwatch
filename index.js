@@ -2,6 +2,8 @@ const express = require('express')
 // en app tengo toda la funcionalidad de express
 const app = express()
 
+
+
 //Configurar el archivo manejo de las variables de entorno
 const dotenv = require('dotenv')
 
@@ -11,6 +13,7 @@ dotenv.config();
 const port = process.env.PORT
 const databaseConnect = require('./db/config')
 databaseConnect()
+
 
 //Para que express entienda los archivos formato JSON
 app.use(express.json())
