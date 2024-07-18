@@ -36,4 +36,32 @@ const createBloodBank = async(req, res) => {
     }
 }
 
-module.exports = { createBloodBank }
+const searchBloodBankName = async(req, res) => {
+    // desestructurar el schema
+    const  searchName  = req.query.name
+  try {
+        const bloodBankName = await BloodBanks.find ({
+            "bloodBanks.features.properties.BANCO_DE_S": {$regex:`"${searchName}"` }
+          }).select('bloodBanks.features.properties.BANCO_DE_S bloodBanks.features.geometry')
+        if(!bloodBankName) return res.status(409).json({
+            ok: false,
+            msg: `${searchName} not found`
+        })
+        return res.status(200).json({
+            ok: true,
+            // msg: `${bloodBanks.name} created successfuly`
+            msg: bloodBankName
+        })
+
+    } catch(error) {
+        console.error(`Please contact to support`, error)
+        return res.status(500).json[{
+            ok: false,
+            msg: `Please contact to support ${'\r\n' + error }`
+        }]
+    }
+}
+
+
+
+module.exports = { createBloodBank, searchBloodBankName }
