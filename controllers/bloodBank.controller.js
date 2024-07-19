@@ -36,32 +36,34 @@ const createBloodBank = async(req, res) => {
     }
 }
 
-const searchBloodBankName = async(req, res) => {
-    // desestructurar el schema
-    const  searchName  = req.query.name
-  try {
-        const bloodBankName = await BloodBanks.find ({
-            "bloodBanks.features.properties.BANCO_DE_S": {$regex:`"${searchName}"` }
-          }).select('bloodBanks.features.properties.BANCO_DE_S bloodBanks.features.geometry')
-        if(!bloodBankName) return res.status(409).json({
-            ok: false,
-            msg: `${searchName} not found`
-        })
-        return res.status(200).json({
-            ok: true,
-            // msg: `${bloodBanks.name} created successfuly`
-            msg: bloodBankName
-        })
+const searchBloodBank = async(req, res) => {
+    try {
+        const { searchtext } = req.query;
+        if (!searchtext) {
+            return res.status(400).json({ 
+                ok: false,
+                msg: 'Query parameter is required' });
+        }
 
-    } catch(error) {
-        console.error(`Please contact to support`, error)
-        return res.status(500).json[{
+        const regex = new RegExp(searchtext, 'i'); // i for case insensitive
+        const [data]= await BloodBanks.find().select('features.properties -_id'); //{"features.properties.BANCO_DE_S": regex}
+        if (!data)
+        return res.status(404).json({ 
             ok: false,
-            msg: `Please contact to support ${'\r\n' + error }`
-        }]
+            msg: `Ops! not found information by ${data}`,
+        });
+        return res.status(200).json({ 
+            ok: true,
+            msg: `Found information`,
+            data: data
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            ok: false,
+            msg: `Server error ${searchtext}` });
     }
 }
 
 
-
-module.exports = { createBloodBank, searchBloodBankName }
+module.exports = { createBloodBank, searchBloodBank }
