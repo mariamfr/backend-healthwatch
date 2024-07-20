@@ -44,9 +44,13 @@ const searchBloodBank = async(req, res) => {
                 ok: false,
                 msg: 'Query parameter is required' });
         }
-
         const regex = new RegExp(searchtext, 'i'); // i for case insensitive
-        const [data]= await BloodBanks.find().select('features.properties -_id'); //{"features.properties.BANCO_DE_S": regex}
+            // const [data] = await BloodBanks.find(
+            // {}
+            // , { 'features.properties': 1, _id: 0 }); //{"features.properties.BANCO_DE_S": regex}
+        const [data] = await BloodBanks.find().select('features.properties'); //{"features.properties.BANCO_DE_S": regex}    
+        const filter = data.features; //{"features.properties.BANCO_DE_S": regex}    
+    //    const result = filter.find({'properties.BANCO_DE_S': { $regex: /nacional/i }})
         if (!data)
         return res.status(404).json({ 
             ok: false,
@@ -55,13 +59,13 @@ const searchBloodBank = async(req, res) => {
         return res.status(200).json({ 
             ok: true,
             msg: `Found information`,
-            data: data
+            data: filter
         });
     } catch (error) {
         console.error(error);
         res.status(500).json({
             ok: false,
-            msg: `Server error ${searchtext}` });
+            msg: `Server error ${error}` });
     }
 }
 
