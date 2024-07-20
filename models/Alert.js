@@ -1,21 +1,17 @@
 const{ Schema, model } = require('mongoose')
 
 const alertSchema = Schema({
-    Id: {
-        type: UUID,
-        require: true,
-        unique: true        
-    },
-    fecha: {
+    dateAlert: {
         type: Date,
         default: Date.now,
         require: true
     },
     description: {
         type: String,
-        require: true
+        require: true,
+        unique: true
     },
-    typeAlert: [{ type: Schema.Types.ObjectId, ref: 'TypeAlert' }],
+    typeAlert: { type: Schema.Types.ObjectId, ref: 'TypeAlert' },
     notificationSms: {
         type: Boolean
     },
