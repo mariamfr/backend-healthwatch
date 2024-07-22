@@ -4,22 +4,25 @@ const express = require('express')
 const router = express.Router()
 const {createTypeAlert, getAllTypeAlerts, getTypeAlertById, deleteTypeAlertById, updateTypeAlertById} = require('./../controllers/typealert.controller')
 
-//validaciones para usuario
+//traer el token
+const { validateToken } = require('./../middlerwares/validateToken')
+
+//validaciones para tipo de alerta
 //pendiente agregar validaciones
 
 //nuevo tipo alerta
-router.post('/newtypealert', createTypeAlert)
+router.post('/newtypealert', validateToken, createTypeAlert)
 
-//traer todas los tipos de alertas
-router.get('/typealerts', getAllTypeAlerts)
+//buscar todos los tipos de alertas
+router.get('/typealerts', validateToken, getAllTypeAlerts)
 
 //buscar tipo de alerta por el id
-router.get('/typealert/:id', getTypeAlertById)
+router.get('/typealert/:id', validateToken, getTypeAlertById)
 
 //Borrar tipo de alerta por el id
-router.delete('/deletetypealert/:id', deleteTypeAlertById)
+router.delete('/deletetypealert/:id', validateToken,  deleteTypeAlertById)
 
 //modificar tipo de alerta por el id
-router.put('/updatetypealert/:id', updateTypeAlertById)
+router.put('/updatetypealert/:id', validateToken,  updateTypeAlertById)
 
 module.exports = router

@@ -5,24 +5,26 @@ const express = require('express')
 const router = express.Router()
 const {createAlert, getAllAlerts, getAlertById, deleteAlertById, updateAlertById} = require('./../controllers/alert.controller')
 
-//validaciones para usuario
+//traer el token
+const { validateToken } = require('./../middlerwares/validateToken')
+
+//validaciones para alertas
 //pendiente agregar validaciones
 
 //nueva alerta
-router.post('/newalert', createAlert)
+router.post('/newalert', validateToken,  createAlert)
 
 //traer todas las alertas
-router.get('/alerts', getAllAlerts)
+router.get('/alerts', validateToken,  getAllAlerts)
 
 //buscar alerta por el id
-router.get('/alert/:id', getAlertById)
+router.get('/alert/:id', validateToken,  getAlertById)
 
 //Borrar alerta por el id
-router.delete('/deletealert/:id', deleteAlertById)
+router.delete('/deletealert/:id', validateToken,  deleteAlertById)
 
 //modificar alerta por el id
-router.put('/updatealert/:id', updateAlertById)
-
+router.put('/updatealert/:id', validateToken,  updateAlertById)
 
 
 module.exports = router
