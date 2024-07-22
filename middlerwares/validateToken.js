@@ -17,6 +17,7 @@ const validateToken = (req, res, next) => {
         req.user = decoded
         console.log(`token es:${token} y el decoded es:${decoded}`)
         console.log(decoded)
+        //continue con el flujo
         next()
     } catch (error) {
         console.log(`Error validating token ${error}`)
@@ -24,7 +25,6 @@ const validateToken = (req, res, next) => {
             ok: false,
             msg: 'Fatal error validating token Error ${error}'
         })
-
 
     }
 }

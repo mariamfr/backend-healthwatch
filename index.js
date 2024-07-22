@@ -7,6 +7,9 @@ const app = express()
 //Configurar el archivo manejo de las variables de entorno
 const dotenv = require('dotenv')
 
+//manejo peticiones 
+const cors = require('cors')
+
 const api = require('./routes/api.routes')
 
 dotenv.config();
@@ -19,6 +22,9 @@ databaseConnect()
 app.use(express.json())
 //Para que express reconozca las urls
 app.use(express.urlencoded({ extended: false }))
+
+//organizando de cors
+app.use(cors())
 
 //para usar las ruta
 app.use('/', api)

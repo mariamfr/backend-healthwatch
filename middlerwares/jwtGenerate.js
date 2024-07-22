@@ -10,7 +10,7 @@ const generateToken = (userData = {}) => {
         const secret = process.env.SECRET_KEY
         const token = jwt.sign(payload, secret, {
             //condiciones adicionales al token
-            expiresIn: '2h'
+            expiresIn: '3h'
         })
 
         //antes de un return dejar un espacio codigo limpio
