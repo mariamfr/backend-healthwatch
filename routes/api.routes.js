@@ -7,6 +7,7 @@ const bloodBank = require('./bloodBank.routes')
 const bloodBankFeature = require('./bloodBankFeature.routes')
 const eps = require('./eps.routes')
 const alert = require('./alert.routes')
+const incident = require('./incident.routes')
 
 router.use('/api', user)
 router.use('/api', typealert)
@@ -14,5 +15,6 @@ router.use('/api', bloodBank)
 router.use('/api', bloodBankFeature)
 router.use('/api', eps)
 router.use('/api', alert)
+router.use('/api', incident)
 
 module.exports = router
