@@ -41,4 +41,4 @@ const epsSchema = Schema({
   features: [featureSchema]
 });
 
-module.exports = model('Eps', epsSchema);
+module.exports = model('Eps', epsSchema, 'Eps');
