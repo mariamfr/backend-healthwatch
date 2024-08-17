@@ -19,12 +19,14 @@ const geometrySchema = Schema({
 
 // Definición del esquema para las propiedades
 const propertiesSchema = Schema({
-  OBJECTID: { type: Number, required: true },
-  id: { type: Number, required: true },
-  BANCO_DE_S: { type: String, required: true },
-  DIRECCION: { type: String, required: true },
-  TELEFONOS: { type: String, required: true },
-  codigo_loc: { type: Number, required: true }
+ CONCODIGO : { type: String, required: true },
+ CONRSOCIAL: { type: String, required: true },
+ CONDIRECCI: { type: String, required: true },
+ CONTELEFON: { type: String, required: true },
+ CONCPRESTA: { type: String, required: true },
+ CPRE      : { type: String, required: true },
+ CNJURIDICA: { type: String, required: true },
+ CPERSONA  : { type: String, required: true }
 }, { _id: false });
 
 // Definición del esquema para las características (features)
@@ -35,11 +37,11 @@ const featureSchema = Schema({
 }, { _id: false });
 
 // Definición del esquema principal
-const bloodBankSchema = Schema({
+const consultorioMedicoSchema = Schema({
   type: { type: String, required: true },
   name: { type: String, required: true },
   crs: crsSchema ,
   features: [featureSchema]
 });
 
-module.exports = model('BloodBanks', bloodBankSchema, 'BloodBanks');
+module.exports = model('ConsultoriosMedico', consultorioMedicoSchema, 'ConsultoriosMedico');

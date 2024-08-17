@@ -3,9 +3,11 @@ const { Schema, model } = require('mongoose')
 
 // Definición del esquema para el CRS
 const crsSchema = Schema({
-  type: { type: String, required: true },
+  // type: { type: String, required: true },
+  type: { type: String },
   properties: {
-    name: { type: String, required: true }
+    // name: { type: String, required: true }
+    name: { type: String }
   }
 }, { _id: false });
 
@@ -18,12 +20,11 @@ const geometrySchema = Schema({
 // Definición del esquema para las propiedades
 const propertiesSchema = Schema({
   OBJECTID: { type: Number, required: true },
-  Id: { type: Number, required: true },
-  Entidad: { type: String, required: true },
-  Codigo: { type: String, required: true },
-  Nit: { type: Number, required: true },
-  Direccion: { type: String, required: true },
-  Localidad: { type: Number, required: true }
+  id: { type: Number, required: true },
+  BANCO_DE_S: { type: String, required: true },
+  DIRECCION: { type: String, required: true },
+  TELEFONOS: { type: String, required: true },
+  codigo_loc: { type: Number, required: true }
 }, { _id: false });
 
 // Definición del esquema para las características (features)
@@ -34,11 +35,11 @@ const featureSchema = Schema({
 }, { _id: false });
 
 // Definición del esquema principal
-const epsSchema = Schema({
+const bancoSangreSchema = Schema({
   type: { type: String, required: true },
   name: { type: String, required: true },
-  crs: crsSchema,
+  crs: crsSchema ,
   features: [featureSchema]
 });
 
-module.exports = model('Eps', epsSchema, 'Eps');
+module.exports = model('BancosSangre', bancoSangreSchema, 'BancosSangre');

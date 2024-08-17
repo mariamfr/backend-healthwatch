@@ -1,10 +1,10 @@
-//el nombre de la variable Eps debe coincidir con el nombre del archivo Eps.js
-//Eps es el modelo
-const Eps = require('../models/Eps')
+//el nombre de la variable ConsultorioMedico debe coincidir con el nombre del archivo ConsultorioMedico.js
+//ConsultorioMedico es el modelo
+const ConsultoriosMedico = require('../models/ConsultorioMedico')
 
-const createEps = async (req, res) => {
+const createConsultorioMedico = async (req, res) => {
     // desestructurar el schema
-    const dataReceived = new Eps(req.body)
+    const dataReceived = new ConsultoriosMedico(req.body)
 
     try {
         console.log("There are %d features in '%s' documents name ", dataReceived.features.length, dataReceived.name);
@@ -13,15 +13,15 @@ const createEps = async (req, res) => {
                 ok: false,
                 msg: `Se requiere data válida. Existen ${dataReceived.features.length} 'features' en documento '${dataReceived.name}'`
             })
-        if (dataReceived.name != 'eps')
+        if (dataReceived.name != 'Cons')
             return res.status(400).json({
                 ok: false,
                 msg: `Se requiere data válida. No habilitado para documentos '${dataReceived.name}'`
             })
-        const totalDocuments = await Eps.where({ "name": { $gte: 'eps' | { $lt: 'eps' } } }).countDocuments()
+        const totalDocuments = await ConsultoriosMedico.where({ "name": { $gte: 'Cons' | { $lt: 'Cons' } } }).countDocuments()
         console.log(totalDocuments)
         if (totalDocuments != 0) {
-            const dataFound = await Eps.findOne({
+            const dataFound = await ConsultoriosMedico.findOne({
                 "type": dataReceived.type,
                 "name": dataReceived.name,
                 "crs.type": dataReceived.crs.type,
@@ -40,7 +40,7 @@ const createEps = async (req, res) => {
         await dataReceived.save();
         return res.status(201).json({
             ok: true,
-            msg: `Banco Sangre creado exitosamente`
+            msg: `Consultorio Medico creado exitosamente`
         })
 
     } catch (error) {
@@ -52,9 +52,9 @@ const createEps = async (req, res) => {
     }
 }
 
-const updateEps = async (req, res) => {
+const updateConsultorioMedico = async (req, res) => {
     // desestructurar el schema
-    const dataReceived = new Eps(req.body)
+    const dataReceived = new ConsultoriosMedico(req.body)
 
     try {
         console.log("There are %d features in '%s' documents name ", dataReceived.features.length, dataReceived.name);
@@ -63,12 +63,12 @@ const updateEps = async (req, res) => {
                 ok: false,
                 msg: `Se requiere data válida. Existen ${dataReceived.features.length} 'features' en documento '${dataReceived.name}'`
             })
-        if (dataReceived.name != 'eps')
+        if (dataReceived.name != 'Cons')
             return res.status(400).json({
                 ok: false,
                 msg: `Se requiere data válida. No habilitado para documentos '${dataReceived.name}'`
             })
-        let dataFound = await Eps.findOne({
+        let dataFound = await ConsultoriosMedico.findOne({
             "type": dataReceived.type,
             "name": dataReceived.name,
             "crs.type": dataReceived.crs.type,
@@ -80,11 +80,11 @@ const updateEps = async (req, res) => {
                 msg: `Documento ${dataReceived.name} no encontrado con 'type': '${dataReceived.type}', 'name': '${dataReceived.name}', 'crs.type': '${dataReceived.crs.type}', 'crs.properties.name': '${dataReceived.crs.properties.name}'`
             })
         if (dataFound) {
-            await Eps.deleteMany()
+            await ConsultoriosMedico.deleteMany()
             await dataReceived.save();
             return res.status(200).json({
                 ok: true,
-                msg: `Bancos Sangre exitosamente sincronizado`
+                msg: `Consultorios Medico exitosamente sincronizado`
             })
         }
     } catch (error) {
@@ -97,28 +97,28 @@ const updateEps = async (req, res) => {
 }
 
 
-const getAllEpsFeature = async (req, res) => {
+const getAllConsultorioMedicoFeature = async (req, res) => {
     try {
-        const [features] = await Eps.find().select('features.properties features.geometry -_id'); //{"features.properties.BANCO_DE_S": regex}    
+        const [features] = await ConsultoriosMedico.find().select('features.properties features.geometry -_id'); //{"features.properties.BANCO_DE_S": regex}    
         // console.log(features);
         const data = features.features
         return res.status(200).json({
             ok: true,
-            msg: 'Eps.Features encontrado',
+            msg: 'ConsultoriosMedico.Features encontrado',
             data: data
         })
     } catch (error) {
-        console.error(`getAllEpsFeature, Error getting Eps.Features, please contact to support`, error)
+        console.error(`getAllConsultorioMedicoFeature, Error getting ConsultoriosMedico.Features, please contact to support`, error)
         return res.status(500).json({
             ok: false,
-            msg: `getAllEpsFeature, Error en Eps.Features, por favor contactar a soporte`
+            msg: `getAllConsultorioMedicoFeature, Error en ConsultoriosMedico.Features, por favor contactar a soporte`
         })
     }
 }
 
 
 module.exports = {
-    createEps
-    , updateEps
-    , getAllEpsFeature
+    createConsultorioMedico
+    , updateConsultorioMedico
+    , getAllConsultorioMedicoFeature
 }

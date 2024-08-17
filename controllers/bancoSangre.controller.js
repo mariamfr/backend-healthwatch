@@ -1,10 +1,10 @@
-//el nombre de la variable Eps debe coincidir con el nombre del archivo Eps.js
-//Eps es el modelo
-const Eps = require('../models/Eps')
+//el nombre de la variable BancoSangre debe coincidir con el nombre del archivo BancoSangre.js
+//BancoSangre es el modelo
+const BancosSangre = require('../models/BancoSangre')
 
-const createEps = async (req, res) => {
+const createBancoSangre = async (req, res) => {
     // desestructurar el schema
-    const dataReceived = new Eps(req.body)
+    const dataReceived = new BancosSangre(req.body)
 
     try {
         console.log("There are %d features in '%s' documents name ", dataReceived.features.length, dataReceived.name);
@@ -13,15 +13,15 @@ const createEps = async (req, res) => {
                 ok: false,
                 msg: `Se requiere data válida. Existen ${dataReceived.features.length} 'features' en documento '${dataReceived.name}'`
             })
-        if (dataReceived.name != 'eps')
+        if (dataReceived.name != 'bancosangre')
             return res.status(400).json({
                 ok: false,
                 msg: `Se requiere data válida. No habilitado para documentos '${dataReceived.name}'`
             })
-        const totalDocuments = await Eps.where({ "name": { $gte: 'eps' | { $lt: 'eps' } } }).countDocuments()
+        const totalDocuments = await BancosSangre.where({ "name": { $gte: 'bancosangre' | { $lt: 'bancosangre' } } }).countDocuments()
         console.log(totalDocuments)
         if (totalDocuments != 0) {
-            const dataFound = await Eps.findOne({
+            const dataFound = await BancosSangre.findOne({
                 "type": dataReceived.type,
                 "name": dataReceived.name,
                 "crs.type": dataReceived.crs.type,
@@ -52,9 +52,9 @@ const createEps = async (req, res) => {
     }
 }
 
-const updateEps = async (req, res) => {
+const updateBancoSangre = async (req, res) => {
     // desestructurar el schema
-    const dataReceived = new Eps(req.body)
+    const dataReceived = new BancosSangre(req.body)
 
     try {
         console.log("There are %d features in '%s' documents name ", dataReceived.features.length, dataReceived.name);
@@ -63,12 +63,12 @@ const updateEps = async (req, res) => {
                 ok: false,
                 msg: `Se requiere data válida. Existen ${dataReceived.features.length} 'features' en documento '${dataReceived.name}'`
             })
-        if (dataReceived.name != 'eps')
+        if (dataReceived.name != 'bancosangre')
             return res.status(400).json({
                 ok: false,
                 msg: `Se requiere data válida. No habilitado para documentos '${dataReceived.name}'`
             })
-        let dataFound = await Eps.findOne({
+        let dataFound = await BancosSangre.findOne({
             "type": dataReceived.type,
             "name": dataReceived.name,
             "crs.type": dataReceived.crs.type,
@@ -80,7 +80,7 @@ const updateEps = async (req, res) => {
                 msg: `Documento ${dataReceived.name} no encontrado con 'type': '${dataReceived.type}', 'name': '${dataReceived.name}', 'crs.type': '${dataReceived.crs.type}', 'crs.properties.name': '${dataReceived.crs.properties.name}'`
             })
         if (dataFound) {
-            await Eps.deleteMany()
+            await BancosSangre.deleteMany()
             await dataReceived.save();
             return res.status(200).json({
                 ok: true,
@@ -97,28 +97,28 @@ const updateEps = async (req, res) => {
 }
 
 
-const getAllEpsFeature = async (req, res) => {
+const getAllBancoSangreFeature = async (req, res) => {
     try {
-        const [features] = await Eps.find().select('features.properties features.geometry -_id'); //{"features.properties.BANCO_DE_S": regex}    
+        const [features] = await BancosSangre.find().select('features.properties features.geometry -_id'); //{"features.properties.BANCO_DE_S": regex}    
         // console.log(features);
         const data = features.features
         return res.status(200).json({
             ok: true,
-            msg: 'Eps.Features encontrado',
+            msg: 'BancosSangre.Features encontrado',
             data: data
         })
     } catch (error) {
-        console.error(`getAllEpsFeature, Error getting Eps.Features, please contact to support`, error)
+        console.error(`getAllBancoSangreFeature, Error getting BancosSangre.Features, please contact to support`, error)
         return res.status(500).json({
             ok: false,
-            msg: `getAllEpsFeature, Error en Eps.Features, por favor contactar a soporte`
+            msg: `getAllBancoSangreFeature, Error en BancosSangre.Features, por favor contactar a soporte`
         })
     }
 }
 
 
 module.exports = {
-    createEps
-    , updateEps
-    , getAllEpsFeature
+    createBancoSangre
+    , updateBancoSangre
+    , getAllBancoSangreFeature
 }
