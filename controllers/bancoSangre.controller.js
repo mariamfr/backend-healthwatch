@@ -99,9 +99,10 @@ const updateBancoSangre = async (req, res) => {
 
 const getAllBancoSangreFeature = async (req, res) => {
     try {
-        const [features] = await BancosSangre.find().select('features.properties features.geometry -_id'); //{"features.properties.BANCO_DE_S": regex}    
+        // const [features] = await BancosSangre.find().select('features.type features.properties features.geometry -_id'); //{"features.properties.BANCO_DE_S": regex}    
+        const [{features}] = await BancosSangre.find().select('features -_id'); //{"features.properties.BANCO_DE_S": regex}    
         // console.log(features);
-        const data = features.features
+        const data = features
         return res.status(200).json({
             ok: true,
             msg: 'BancosSangre.Features encontrado',

@@ -22,7 +22,7 @@ const propertiesSchema = Schema({
  CONCODIGO : { type: String, required: true },
  CONRSOCIAL: { type: String, required: true },
  CONDIRECCI: { type: String, required: true },
- CONTELEFON: { type: String, required: true },
+ CONTELEFON: { type: String }, //Existen datos sin esta valor
  CONCPRESTA: { type: String, required: true },
  CPRE      : { type: String, required: true },
  CNJURIDICA: { type: String, required: true },

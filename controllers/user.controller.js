@@ -76,8 +76,34 @@ const loginUser = async (req, res) => {
     }
 }
 
+// determinar is existe un usuario en la app
+const checkIfExistsUser = async (req, res) => {
+    // recibir params	
+    const email  = req.query.email
+    console.log(email)
+    try {
+        const user = await User.findOne({ email: email })
+        if (user) return res.status(200).json({
+            ok: true,
+            msg: `${email} is already exist in database`
+        })
+        return res.status(400).json({
+            ok: false,
+            msg: `${email} no yet in database`
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json[{
+            ok: false,
+            msg: `Please contact to support`
+        }]
+    }
+}
+
+
 
 module.exports = {
     createUser,
-    loginUser
+    loginUser,
+    checkIfExistsUser
 }

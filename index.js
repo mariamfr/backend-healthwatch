@@ -1,8 +1,8 @@
 const express = require('express')
+const bodyParser = require('body-parser');
 // en app tengo toda la funcionalidad de express
+
 const app = express()
-
-
 
 //Configurar el archivo manejo de las variables de entorno
 const dotenv = require('dotenv')
@@ -19,12 +19,18 @@ databaseConnect()
 
 
 //Para que express entienda los archivos formato JSON
-app.use(express.json())
+// app.use(express.json())
+// Middleware to parse JSON with an increased limit (e.g., 20MB) 
+app.use(bodyParser.json({ limit: '512mb' }));
+
+
+
 //Para que express reconozca las urls
 app.use(express.urlencoded({ extended: false }))
 
 //organizando de cors
 app.use(cors())
+
 
 //para usar las ruta
 app.use('/', api)
