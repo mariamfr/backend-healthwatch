@@ -5,7 +5,7 @@ const BancosSangre = require('../models/BancoSangre')
 const createBancoSangre = async (req, res) => {
     // desestructurar el schema
     const dataReceived = new BancosSangre(req.body)
-
+    console.log('createBancoSangre', dataReceived)
     try {
         console.log("There are %d features in '%s' documents name ", dataReceived.features.length, dataReceived.name);
         if (dataReceived.features.length == 0)
