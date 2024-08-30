@@ -8,7 +8,7 @@ const {generateToken} = require('./../middlerwares/jwtGenerate')
 // registra un usuario en la app
 const createUser = async (req, res) => {
     // desestructurar el schema
-    const { email, password } = req.body
+    const { email, password, username } = req.body
     try {
         const user = await User.findOne({ email: email })
         if (user) return res.status(400).json({
@@ -20,7 +20,8 @@ const createUser = async (req, res) => {
 
         const dbUser = new User({
             email: email,
-            password: password
+            password: password,
+            username: username
         })
         //accedemos al password para encriptarlo
         dbUser.password = bcrypt.hashSync(password, salt)
@@ -65,7 +66,9 @@ const loginUser = async (req, res) => {
         return res.status(200).json({
             ok: true,
             msg: `${dbUser.email}, Wellcome app`,
-            token: token
+            token: token,
+            userId: dbUser._id,
+            userName: dbUser.username
         })
     } catch (error) {
         console.log(error)
@@ -100,10 +103,33 @@ const checkIfExistsUser = async (req, res) => {
     }
 }
 
+// Buscar el Id del usuario
+const getUserById = async(req, res) => {
+    const id = req.params.id
+    try {
+        const user = await User.findById({_id: id})
+        if(!user) return res.status(404).json({
+            ok:false,
+            msg:`by getUserById, Not found User para ${id}`
+        })       
+        return res.status(200).json({
+            ok:true,
+            msg:'user with Id found',
+            user: user
+        })
+    } catch(error) {
+        console.log(error)
+        return res.status(500).json({
+            ok:false,
+            msg:'by getUserById, contact to support'
+        })
+    }
+}
 
 
 module.exports = {
     createUser,
     loginUser,
-    checkIfExistsUser
+    checkIfExistsUser,
+    getUserById
 }

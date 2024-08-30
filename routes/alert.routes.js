@@ -3,7 +3,7 @@ const express = require('express')
 
 // permitir comunicarnos con el frontend
 const router = express.Router()
-const {createAlert, getAllAlerts, getAlertById, deleteAlertById, updateAlertById} = require('./../controllers/alert.controller')
+const {createAlert, getAllAlerts, getAlertById, deleteAlertById, updateAlertById, getAllAlertsByUserId} = require('./../controllers/alert.controller')
 
 //traer el token
 const { validateToken } = require('./../middlerwares/validateToken')
@@ -25,6 +25,9 @@ router.delete('/deletealert/:id', validateToken,  deleteAlertById)
 
 //modificar alerta por el id
 router.put('/updatealert/:id', validateToken,  updateAlertById)
+
+//traer todas las alertas para un usuario
+router.get('/alertsuser/:userAlert', validateToken,  getAllAlertsByUserId)
 
 
 module.exports = router

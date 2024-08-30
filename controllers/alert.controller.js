@@ -2,7 +2,7 @@ const Alert = require("../models/Alert");
 
 // Crear una Alerta
 const createAlert = async (req, res) => {
-    const { dateAlert, description, notificationSms, notificationEmail, frecuency, typeAlert } = req.body
+    const { dateAlert, description, notificationSms, notificationEmail, frecuency, typeAlert, userAlert} = req.body
     try {
         const alert = await Alert.findOne({ description: description })
         if (alert) return res.status(400).json({
@@ -16,7 +16,8 @@ const createAlert = async (req, res) => {
             typeAlert: typeAlert,
             notificationSms: notificationSms,
             notificationEmail: notificationEmail,
-            frecuency: frecuency
+            frecuency: frecuency,
+            userAlert: userAlert
         })
         //guardar el objeto
         await dbAlert.save()
@@ -132,10 +133,36 @@ const updateAlertById = async(req, res) => {
 }
 
 
+// Buscar alertas por Id del usuario
+const getAllAlertsByUserId = async(req, res) => {
+    const { userAlert } = req.params;
+    console.log(userAlert)
+    try {
+        const alerts = await Alert.find({userAlert: userAlert})
+        if(!alerts) return res.status(404).json({
+            ok:false,
+            msg:`by getAllAlertsByUserId, Not found Alerts para ${userAlert}`
+        })       
+        return res.status(200).json({
+            ok:true,
+            msg:`alerts found by userid para ${userAlert}`,
+            alerts: alerts
+        })
+    } catch(error) {
+        console.log(error)
+        return res.status(500).json({
+            ok:false,
+            msg:'by getAllAlertsByUserId, contact to support'
+        })
+    }
+}
+
+
 module.exports = {
     createAlert,
     getAllAlerts,
     getAlertById,
     deleteAlertById,
-    updateAlertById
+    updateAlertById,
+    getAllAlertsByUserId    
 }

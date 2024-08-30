@@ -11,7 +11,10 @@ const alertSchema = Schema({
         require: true,
         unique: true
     },
-    typeAlert: { type: Schema.Types.ObjectId, ref: 'TypeAlert' },
+    typeAlert: { 
+        type: Schema.Types.ObjectId, 
+        ref: 'TypeAlert' 
+    },
     notificationSms: {
         type: Boolean
     },
@@ -21,6 +24,10 @@ const alertSchema = Schema({
     frecuency: {
         type: Number,
         requiere: true
+    },
+    userAlert: {
+        type: Schema.Types.ObjectId, 
+        ref: 'User' 
     }
 })
 
