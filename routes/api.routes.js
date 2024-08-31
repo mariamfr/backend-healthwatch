@@ -14,7 +14,9 @@ const transporteEspecialPaciente = require('./transporteEspecialPaciente.routes'
 const typealert = require('./typealert.routes')
 const upi = require('./upi.routes')
 const user = require('./user.routes')
-const vacunaFiebre= require('./vacunaFiebre.routes')
+const vacunaFiebre= require('./vacunaFiebre.routes');
+const {synchronization} = require('../controllers/synchronization.controller');
+
 
 router.use('/api', alert)
 router.use('/api', bancoSangre)
@@ -30,5 +32,5 @@ router.use('/api', typealert)
 router.use('/api', upi)
 router.use('/api', user)
 router.use('/api', vacunaFiebre)
-
+router.use('/api', synchronization)
 module.exports = router
