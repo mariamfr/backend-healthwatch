@@ -2,21 +2,27 @@ const Incident = require("../models/Incident");
 
 // Crear una incidencia
 const createIncident = async (req, res) => {
-    const { dateIncident, nameIncident, description} = req.body
+    const { dateIncident, nameIncident, description, incubationIncident, recoveryIncident, sourceIncident, imageIncident, casesIncident, urlSourceIncident } = req.body
     try {
-        const incident = await Incident.findOne({ description: description })
+        const incident = await Incident.findOne({ nameIncident: nameIncident })
         if (incident) return res.status(400).json({
             ok: false,
-            msg: `${description} is already exist in database`
+            msg: `${nameIncident} is already exist in database`
         })
         //nuevo objeto
         const dbIncident = new Incident({
             dateIncident: dateIncident,
             nameIncident: nameIncident,
-            description: description
+            description: description,
+            incubationIncident: incubationIncident,
+            recoveryIncident: recoveryIncident,
+            sourceIncident: sourceIncident,
+            imageIncident: imageIncident,
+            casesIncident: casesIncident,
+            urlSourceIncident: urlSourceIncident
         })
         //guardar el objeto
-        await dbAlert.save()
+        await dbIncident.save()
         return res.status(201).json({
             ok: true,
             msg: `${description} created successfuly`
@@ -49,30 +55,30 @@ const getAllIncidents = async (req, res) => {
 }
 
 // Buscar incidencia por Id
-const getIncidentById = async(req, res) => {
+const getIncidentById = async (req, res) => {
     const id = req.params.id
     try {
-        const incident = await Incident.findById({_id: id})
-        if(!incident) return res.status(404).json({
-            ok:false,
-            msg:`by getIncidentById, Not found Incident para ${id}`
-        })       
+        const incident = await Incident.findById({ _id: id })
+        if (!incident) return res.status(404).json({
+            ok: false,
+            msg: `by getIncidentById, Not found Incident para ${id}`
+        })
         return res.status(200).json({
-            ok:true,
-            msg:'incident with Id found',
+            ok: true,
+            msg: 'incident with Id found',
             incident: incident
         })
-    } catch(error) {
+    } catch (error) {
         console.log(error)
         return res.status(500).json({
-            ok:false,
-            msg:'by getIncidentById, contact to support'
+            ok: false,
+            msg: 'by getIncidentById, contact to support'
         })
     }
 }
 
 // eliminar una incidencia por el id
-const deleteIncidentById = async(req, res) => {
+const deleteIncidentById = async (req, res) => {
     const { id } = req.params;
     try {
         const incident = await Incident.findByIdAndDelete(id)
@@ -92,17 +98,24 @@ const deleteIncidentById = async(req, res) => {
             ok: false,
             msg: 'deleteIncidentById, error deleting, please contact to support'
         })
-    }            
+    }
 }
 
 // modificar una incidencia por el id
-const updateIncidentById = async(req, res) => {
+const updateIncidentById = async (req, res) => {
     const { id } = req.params;
-    const { nameIncident, description } = req.body
+    const { nameIncident, description, incubationIncident, recoveryIncident, sourceIncident, imageIncident, casesIncident, urlSourceIncident } = req.body
     try {
         const updateDataById = {};
-        if(nameIncident) updateDataById.nameIncident = nameIncident;
-        if(description) updateDataById.description = description;
+        if (nameIncident) updateDataById.nameIncident = nameIncident;
+        if (description) updateDataById.description = description;
+        if (incubationIncident) updateDataById.incubationIncident = incubationIncident;
+        if (recoveryIncident) updateDataById.recoveryIncident = recoveryIncident;
+        if (sourceIncident) updateDataById.sourceIncident = sourceIncident;
+        if (imageIncident) updateDataById.imageIncident = imageIncident;
+        if (casesIncident) updateDataById.casesIncident = casesIncident;
+        if (urlSourceIncident) updateDataById.urlSourceIncident = urlSourceIncident;
+
         console.log(updateDataById)
         const incident = await Incident.findByIdAndUpdate(id, updateDataById)
         if (!incident) return res.status(400).json({
@@ -113,7 +126,7 @@ const updateIncidentById = async(req, res) => {
         return res.status(200).json({
             ok: true,
             msg: 'incident update sucessfuly',
-            incident: updateincident     
+            incident: updateincident
         })
     }
     catch (error) {
@@ -122,7 +135,7 @@ const updateIncidentById = async(req, res) => {
             ok: false,
             msg: 'updateIncidentyId, error updating, please contact to support'
         })
-    }            
+    }
 }
 
 

@@ -60,13 +60,13 @@ const synchronization = async (req, res) => {
                 urlData = 'https://datosabiertos.bogota.gov.co/dataset/3c527716-6b5b-46d3-a3d7-fcd918ba7ccb/resource/67abf906-6b52-4064-b0a8-8e3fcd39a1a7/download/vacunafiebre.geojson'
                 break;
             default:
-                // Código para manejar cualquier opción no contemplada
-                console.error('synchronization.controller B. nameService %s not available', nameService);
-                return res.status(400).json({
-                    ok: false,
-                    msg: `service '${nameService}' no registrada para actualizar. Por favor contactarse con soporte`
-                })
-                break;
+                 // Código para manejar cualquier opción no contemplada
+                 console.error('synchronization.controller B. nameService %s not available', nameService);
+                 return res.status(400).json({
+                     ok: false,
+                     msg: `service '${nameService}' no registrada para actualizar. Por favor contactarse con soporte`
+                 })
+                 break;
         }
 
         // Realizar una petición GET para obtener todos los usuarios
@@ -82,9 +82,9 @@ const synchronization = async (req, res) => {
                 data = response.data
                 console.log('synchronization.controller response.data: %s', data)
                 return res.status(200).json({
-                     ok: true,
-                     msg: `review from: ${urlData} --> ${data}`,
-                     data: response.data
+                    ok: true,
+                    msg: `review from: ${urlData} --> ${data}`,
+                    data: response.data
                 })
             })
             .catch((error) => {

@@ -8,7 +8,7 @@ const {generateToken} = require('./../middlerwares/jwtGenerate')
 // registra un usuario en la app
 const createUser = async (req, res) => {
     // desestructurar el schema
-    const { email, password, username } = req.body
+    const { email, password, userName, userRole } = req.body
     try {
         const user = await User.findOne({ email: email })
         if (user) return res.status(400).json({
@@ -21,7 +21,8 @@ const createUser = async (req, res) => {
         const dbUser = new User({
             email: email,
             password: password,
-            username: username
+            userName: userName,
+            userRole: userRole
         })
         //accedemos al password para encriptarlo
         dbUser.password = bcrypt.hashSync(password, salt)
@@ -36,7 +37,7 @@ const createUser = async (req, res) => {
         console.log(error)
         return res.status(500).json[{
             ok: false,
-            msg: `Please ontact to support`
+            msg: `createUser Please ontact to support`
         }]
     }
 }
@@ -65,16 +66,17 @@ const loginUser = async (req, res) => {
 
         return res.status(200).json({
             ok: true,
-            msg: `${dbUser.email}, Wellcome app`,
+            msg: `${dbUser.email}, Wellcome app healthwatch`,
             token: token,
             userId: dbUser._id,
-            userName: dbUser.username
+            userName: dbUser.userName,
+            userRole: dbUser.userRole
         })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
             ok: false,
-            msg: 'please contact to development team'
+            msg: 'loginUser please contact to development team'
         })
     }
 }
@@ -98,7 +100,7 @@ const checkIfExistsUser = async (req, res) => {
         console.log(error)
         return res.status(500).json[{
             ok: false,
-            msg: `Please contact to support`
+            msg: `checkIfExistsUser Please contact to support`
         }]
     }
 }
@@ -126,10 +128,54 @@ const getUserById = async(req, res) => {
     }
 }
 
+// modificar un Usuario por el id
+const updateUserById = async(req, res) => {
+    const { id } = req.params;
+    const { email, password, userName, userRole } = req.body
+
+    try {
+        //algoritmo de encriptacion
+        const salt = bcrypt.genSaltSync();
+
+        const updateDataById = {};
+        if(email) updateDataById.email = email;
+        if(password) updateDataById.password = password;
+        if(userName) updateDataById.userName = userName;
+        if(userRole) updateDataById.userRole = userRole;
+        console.log(userRole)
+        console.log(updateDataById.userRole)
+        //accedemos al password para encriptarlo
+        updateDataById.password = bcrypt.hashSync(password, salt)
+        
+        console.log(updateDataById)
+        const user = await User.findByIdAndUpdate(id, updateDataById)
+        if (!user) return res.status(400).json({
+            ok: false,
+            msg: `updateUserById, user with email ${email}, is administrative: ${userRole}, not found by Id`
+        })
+        //valida la actualizacion
+        const updateUser = await User.findById(id)
+        return res.status(200).json({
+            ok: true,
+            msg: `User user with email ${email}, is administrative: ${userRole}, update sucessfuly`,
+            User: updateUser       
+        })
+    }
+    catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            ok: false,
+            msg: 'updateUserById, error updating, please contact to support'
+        })
+    }            
+}
+
+
 
 module.exports = {
     createUser,
     loginUser,
     checkIfExistsUser,
-    getUserById
+    getUserById,
+    updateUserById
 }

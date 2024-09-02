@@ -2,7 +2,11 @@ const express = require('express')
 
 // permitir comunicarnos con el frontend
 const router = express.Router()
-const { createUser, loginUser, checkIfExistsUser, getUserById } = require('./../controllers/user.controller')
+const { createUser, 
+        loginUser, 
+        checkIfExistsUser, 
+        getUserById,
+        updateUserById } = require('./../controllers/user.controller')
 
 
 //traer el token para cuando es requerido
@@ -24,4 +28,9 @@ router.get('/user', checkIfExistsUser)
 
 //buscar usuario por el id
 router.get('/user/:id',  validateToken, getUserById)
+
+//modificar usuario por el id
+router.put('/updateuser/:id',  validateToken, updateUserById)
+
 module.exports = router
+

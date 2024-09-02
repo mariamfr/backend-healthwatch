@@ -13,8 +13,26 @@ const incidentSchema = Schema({
     },
     description: {
         type: String,
-        require: true,
-        unique: true
+        require: true
+    },
+    incubationIncident: {
+        type: String
+    },
+    recoveryIncident: {
+        type: String
+    },
+    sourceIncident: {
+        type: String
+    },
+    imageIncident: {
+        type: String
+    },
+    casesIncident: {
+        type: Number,
+        require: true
+    },
+    urlSourceIncident: {
+        type: String
     }
 })
 

@@ -10,8 +10,12 @@ const userSchema = Schema({
         type: String,
         require: true
     },
-    username: {
+    userName: {
         type: String,
+        require: true
+    },
+    userRole: {
+        type: Boolean,
         require: true
     }
 })

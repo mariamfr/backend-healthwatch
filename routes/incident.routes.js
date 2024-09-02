@@ -15,10 +15,10 @@ const { validateToken } = require('./../middlerwares/validateToken')
 router.post('/newincident', validateToken,  createIncident)
 
 //traer todas las incidentes
-router.get('/incidents', validateToken,  getAllIncidents)
+router.get('/incidents', getAllIncidents)
 
 //buscar incidente por el id
-router.get('/incident/:id', validateToken,  getIncidentById)
+router.get('/incident/:id',  getIncidentById)
 
 //Borrar incidente por el id
 router.delete('/deleteincident/:id', validateToken,  deleteIncidentById)
