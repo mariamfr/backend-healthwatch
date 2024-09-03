@@ -69,6 +69,13 @@ const synchronization = async (req, res) => {
                  break;
         }
 
+        if( urlData==''||urlData===undefined){
+            return res.status(400).json({
+                ok: false,
+                msg: `Error urlData --> ${urlData}`
+            })
+        }
+        else{
         // Realizar una petición GET para obtener todos los usuarios
         console.info('synchronization.controller C. Axios.get(\'%s\')', urlData)
         await Axios.get(`${urlData}`)
@@ -110,7 +117,7 @@ const synchronization = async (req, res) => {
                     msg: `Error from: ${urlData} --> ${error.message}`
                 })
             });
-
+        if(data){
         console.log('synchronization.controller F.01 Synchronization nameService : %s', nameService)
         console.log('synchronization.controller F.02 Synchronization data ', data)
         switch (nameService) {
@@ -191,6 +198,9 @@ const synchronization = async (req, res) => {
                     msg: `service '${nameService}' no implementado. Por favor contactarse con soporte`
                 })
                 break;
+        }} else{
+            console.log('erroir do not received revsynchronization.controller F.02 Synchronization data ', data)
+        }
         }
     } catch (error) {
         console.error(`Por favor contactarse con soporte`, error)
