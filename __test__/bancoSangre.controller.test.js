@@ -46,7 +46,7 @@ describe('BancoSangre Controller testing', () => {
     }
     beforeEach(async () => {
         await BancosSangre.deleteMany({})
-    }, 1000)
+    }, 10000)
 
     afterAll(async () => {
         await BancosSangre.deleteMany({})

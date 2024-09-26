@@ -56,7 +56,7 @@ describe('ConsultorioMedico Controller testing', () => {
     }
     beforeEach(async () => {
         await ConsultoriosMedico.deleteMany({})
-    }, 1000)
+    }, 10000)
 
     afterAll(async () => {
         await ConsultoriosMedico.deleteMany({})

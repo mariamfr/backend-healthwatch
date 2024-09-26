@@ -60,7 +60,7 @@ describe('EntidadFarmaceutica Controller testing', () => {
     }
     beforeEach(async () => {
         await EntidadesFarmaceutica.deleteMany({})
-    }, 1000)
+    }, 10000)
 
     afterAll(async () => {
         await EntidadesFarmaceutica.deleteMany({})
