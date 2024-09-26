@@ -7,12 +7,14 @@ const createBancoSangre = async (req, res) => {
     const dataReceived = new BancosSangre(req.body)
     console.log('createBancoSangre', dataReceived)
     try {
+        // Controlar que el archivo cuente con datos en Features
         console.log("There are %d features in '%s' documents name ", dataReceived.features.length, dataReceived.name);
         if (dataReceived.features.length == 0)
             return res.status(400).json({
                 ok: false,
                 msg: `Se requiere data válida. Existen ${dataReceived.features.length} 'features' en documento '${dataReceived.name}'`
             })
+        // Controlar que el archivo corresponda con name:'bancosangre'
         if (dataReceived.name != 'bancosangre')
             return res.status(400).json({
                 ok: false,
@@ -27,16 +29,14 @@ const createBancoSangre = async (req, res) => {
                 "crs.type": dataReceived.crs.type,
                 "crs.properties.name": dataReceived.crs.properties.name
             })
-            if (dataFound) return res.status(409).json({
+            if (dataFound) {return res.status(409).json({
                 ok: false,
                 msg: `Ya existe en base de datos con id: ${dataFound._id}`
-            })
+            })} else return res.status(400).json({
+                ok: false,
+                msg: `Database unicamente admite un (1) documento, Actualmente registra ${totalDocuments}. Por favor eliminar estos antes de adicionar`
+            });
         }
-        if (totalDocuments != 0) return res.status(400).json({
-            ok: false,
-            msg: `Database unicamente admite un (1) documento, Actualmente registra ${totalDocuments}. Por favor eliminar estos antes de adicionar`
-        })
-
         await dataReceived.save();
         return res.status(201).json({
             ok: true,
@@ -100,6 +100,9 @@ const updateBancoSangre = async (req, res) => {
 const getAllBancoSangreFeature = async (req, res) => {
     try {
         // const [features] = await BancosSangre.find().select('features.type features.properties features.geometry -_id'); //{"features.properties.BANCO_DE_S": regex}    
+        const bancosSangre = await BancosSangre.find();
+        console.info('getAllBancoSangreFeature data ', bancosSangre.length, bancosSangre[0] )
+        if(bancosSangre && bancosSangre.length > 0 ){        
         const [{features}] = await BancosSangre.find().select('features -_id'); //{"features.properties.BANCO_DE_S": regex}    
         // console.log(features);
         const data = features
@@ -108,6 +111,13 @@ const getAllBancoSangreFeature = async (req, res) => {
             msg: 'BancosSangre.Features encontrado',
             data: data
         })
+    }
+    else {
+        return res.status(400).json({
+            ok: false,
+            msg: `Database sin registros`
+        });
+    }
     } catch (error) {
         console.error(`getAllBancoSangreFeature, Error getting BancosSangre.Features, please contact to support`, error)
         return res.status(500).json({

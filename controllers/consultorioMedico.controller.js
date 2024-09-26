@@ -31,11 +31,11 @@ const createConsultorioMedico = async (req, res) => {
                 ok: false,
                 msg: `Ya existe en base de datos con id: ${dataFound._id}`
             })
+            else  return res.status(400).json({
+                ok: false,
+                msg: `Database unicamente admite un (1) documento, Actualmente registra ${totalDocuments}. Por favor eliminar estos antes de adicionar`
+            })
         }
-        if (totalDocuments != 0) return res.status(400).json({
-            ok: false,
-            msg: `Database unicamente admite un (1) documento, Actualmente registra ${totalDocuments}. Por favor eliminar estos antes de adicionar`
-        })
 
         await dataReceived.save();
         return res.status(201).json({
@@ -99,6 +99,14 @@ const updateConsultorioMedico = async (req, res) => {
 
 const getAllConsultorioMedicoFeature = async (req, res) => {
     try {
+        const consultoriosMedico = await ConsultoriosMedico.find();
+        if(!consultoriosMedico || ( consultoriosMedico && consultoriosMedico.length == 0 ))
+            return res.status(400).json({
+                ok: false,
+                msg: `Database sin registros`
+            });
+                
+
         const [features] = await ConsultoriosMedico.find().select('features.properties features.geometry -_id'); //{"features.properties.BANCO_DE_S": regex}    
         // console.log(features);
         const data = features.features
