@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1727344384957" clover="3.2.0">
-  <project timestamp="1727344384957" name="All files">
+<coverage generated="1727344812357" clover="3.2.0">
+  <project timestamp="1727344812357" name="All files">
     <metrics statements="986" coveredstatements="487" conditionals="268" coveredconditionals="54" methods="57" coveredmethods="14" elements="1311" coveredelements="555" complexity="0" loc="986" ncloc="986" packages="6" files="51" classes="51"/>
     <package name="backend-healthwatch">
       <metrics statements="16" coveredstatements="16" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
