@@ -9,6 +9,8 @@ const dotenv = require('dotenv')
 
 //manejo peticiones 
 const cors = require('cors')
+//ingresa el path
+const path = require('path')
 
 const api = require('./routes/api.routes')
 
@@ -35,7 +37,16 @@ app.use(cors())
 //para usar las ruta
 app.use('/', api)
 
-//colocar a escuchar el servidor express
-app.listen(port, () => {
-    console.log(`Servidor conectado en el puerto ${port}`)
-})
+// se quita por que se organiza con otro archivo www
+// //colocar a escuchar el servidor express
+// app.listen(port, () => {
+//     console.log(`Servidor conectado en el puerto ${port}`)
+// })
+
+//esto es para colocar en produccion la dis del frontend
+// app.use('/', express.static(__dirname + '/dist/frontend-healthwatch/browser'))
+// app.get('/*', (req, res, next) => {
+//     res.sendFile(path.resolve(__dirname + '/dist/frontend-healthwatch/browser/index.html'))
+// })
+
+module.exports = app
